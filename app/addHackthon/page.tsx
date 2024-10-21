@@ -2,7 +2,7 @@
 import axios from "axios";
 import { useRouter } from "next/navigation";
 import React, { useState, ChangeEvent, FormEvent } from "react";
-
+import Image from 'next/image';
 
 export default function AddHackthon() {
   const [preview, setPreview] = useState<string | ArrayBuffer | null>("");
@@ -113,12 +113,15 @@ export default function AddHackthon() {
             required
           />
           {preview && (
-            <img
-              src={preview as string}
+            
+            <Image
+              src={preview as string} 
               alt="Preview"
-              style={{ width: "200px", height: "200px", objectFit: "cover" }}
+              width={200} 
+              height={200} 
+              style={{ objectFit: "cover" }} 
             />
-          )}
+          )}        
         </div>
 
         <div className="mb-4">

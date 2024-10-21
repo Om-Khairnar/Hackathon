@@ -4,6 +4,7 @@ import Remove from "@/components/Remove";
 import Link from "next/link";
 import { HiPencilAlt } from "react-icons/hi";
 import Search from "@/assets/assets/icons/search.svg";
+import Image from "next/image";
 
 interface Hackathon {
   _id: string;
@@ -71,12 +72,20 @@ export default function HackthonList() {
                 key={hackathon._id}
                 className="card w-1/5 bg-white shadow-lg rounded-lg overflow-hidden"
               >
-                <img
+                {/* <img
                   src={hackathon.upload}
                   alt={hackathon.name}
                   className="w-full h-48 object-cover"
                   loading="lazy"
-                />{" "}
+                />{" "} */}
+                <Image
+                  src={hackathon.upload}
+                  alt={hackathon.name}
+                  width={400} 
+                  height={200} 
+                  className="w-full h-48 object-cover"
+                  loading="lazy"
+                />
                 <div className="p-4">
                   <h2>{hackathon.name}</h2>
                   <h3>{hackathon.description}</h3>
