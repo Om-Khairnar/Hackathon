@@ -13,24 +13,12 @@ pnpm dev
 # or
 bun dev
 ```
+### Here is landing page of Hackthon where we can create the challange 
+![image](https://github.com/user-attachments/assets/cd0be556-ecee-4aaf-b8ee-9a7b8b11b1af)
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+### Here you can see the create challanges 
+![image](https://github.com/user-attachments/assets/55ed5f52-451a-49df-9497-b7d67a336e5f)
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## currently i have just implemented the curd operation but and implemented the UI i am working on other parts also this project is not completed 
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
 
-## Learn More
-
-To learn more about Next.js, take a look at the following resources:
-
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
