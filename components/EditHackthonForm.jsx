@@ -1,64 +1,74 @@
-'use client';
-import React, { useState } from 'react';
-import { useRouter } from 'next/navigation';
+"use client";
+import React, { useState } from "react";
+import { useRouter } from "next/navigation";
 
-export default function EditHackthonForm({ id, name, startDate, endDate, description, upload, level }) {
+export default function EditHackthonForm({
+  id,
+  name,
+  startDate,
+  endDate,
+  description,
+  upload,
+  level,
+}) {
   const router = useRouter();
   const [newName, setNewName] = useState(name);
-  const [newStartDate, setNewStartDate] = useState(startDate.split('T')[0]); // Format date for input
-  const [newEndDate, setNewEndDate] = useState(endDate.split('T')[0]); // Format date for input
+  const [newStartDate, setNewStartDate] = useState(startDate.split("T")[0]);
+  const [newEndDate, setNewEndDate] = useState(endDate.split("T")[0]);
   const [newDescription, setNewDescription] = useState(description);
-  const [newUpload, setNewUpload] = useState(upload);
   const [newLevel, setNewLevel] = useState(level);
-  const [file, setFile] = useState(null); // State for the uploaded file
+  const [file, setFile] = useState(null);
 
   const handleSubmit = async (e) => {
-    e.preventDefault(); // Prevent the default form submission
+    e.preventDefault();
 
     const updatedData = {
       newName,
       newStartDate,
       newEndDate,
       newDescription,
-      newUpload: file ? await uploadToCloudinary(file) : newUpload, // Handle image upload if a new file is selected
+      newUpload: file ? await uploadToCloudinary(file) : upload, // Use existing upload URL if no new file is provided
       newLevel,
     };
 
     try {
       const response = await fetch(`/api/topics/${id}`, {
-        method: 'PUT',
+        method: "PUT",
         headers: {
-          'Content-Type': 'application/json',
+          "Content-Type": "application/json",
         },
         body: JSON.stringify(updatedData),
       });
 
       if (!response.ok) {
-        throw new Error('Failed to update challenge');
+        throw new Error("Failed to update challenge");
       }
 
       const result = await response.json();
-      alert(result.message); // Show success message
-      // Optionally, you can redirect or update state after success
-      router.push('/');
+      alert(result.message);
+
+      router.push("/");
     } catch (error) {
-      console.error('Error updating challenge:', error);
-      alert('Error updating challenge: ' + error.message);
+      console.error("Error updating challenge:", error);
+      alert("Error updating challenge: " + error.message);
     }
   };
 
   const uploadToCloudinary = async (file) => {
     const formData = new FormData();
-    formData.append('file', file);
-    formData.append('upload_preset', 'YOUR_UPLOAD_PRESET'); // Replace with your Cloudinary upload preset
+    formData.append("file", file);
+    formData.append("upload_preset", "YOUR_UPLOAD_PRESET");
 
-    const res = await fetch('https://api.cloudinary.com/v1_1/YOUR_CLOUD_NAME/image/upload', { // Replace with your Cloudinary URL
-      method: 'POST',
-      body: formData,
-    });
+    const res = await fetch(
+      "https://api.cloudinary.com/v1_1/YOUR_CLOUD_NAME/image/upload",
+      {
+        method: "POST",
+        body: formData,
+      }
+    );
 
     if (!res.ok) {
-      throw new Error('Image upload failed');
+      throw new Error("Image upload failed");
     }
 
     const data = await res.json();
@@ -66,11 +76,13 @@ export default function EditHackthonForm({ id, name, startDate, endDate, descrip
   };
 
   return (
-    <div className='p-8'>
+    <div className="p-8">
       <h1 className="text-3xl font-bold mb-4">Edit Challenge Details</h1>
       <form onSubmit={handleSubmit}>
         <div className="mb-4">
-          <label htmlFor="challengeName" className="block text-lg font-medium">Challenge Name</label>
+          <label htmlFor="challengeName" className="block text-lg font-medium">
+            Challenge Name
+          </label>
           <input
             onChange={(e) => setNewName(e.target.value)}
             value={newName}
@@ -82,7 +94,9 @@ export default function EditHackthonForm({ id, name, startDate, endDate, descrip
         </div>
 
         <div className="mb-4">
-          <label htmlFor="startDate" className="block text-lg font-medium">Start Date</label>
+          <label htmlFor="startDate" className="block text-lg font-medium">
+            Start Date
+          </label>
           <input
             onChange={(e) => setNewStartDate(e.target.value)}
             value={newStartDate}
@@ -94,7 +108,9 @@ export default function EditHackthonForm({ id, name, startDate, endDate, descrip
         </div>
 
         <div className="mb-4">
-          <label htmlFor="endDate" className="block text-lg font-medium">End Date</label>
+          <label htmlFor="endDate" className="block text-lg font-medium">
+            End Date
+          </label>
           <input
             onChange={(e) => setNewEndDate(e.target.value)}
             value={newEndDate}
@@ -106,7 +122,9 @@ export default function EditHackthonForm({ id, name, startDate, endDate, descrip
         </div>
 
         <div className="mb-4">
-          <label htmlFor="description" className="block text-lg font-medium">Description</label>
+          <label htmlFor="description" className="block text-lg font-medium">
+            Description
+          </label>
           <textarea
             onChange={(e) => setNewDescription(e.target.value)}
             value={newDescription}
@@ -116,9 +134,11 @@ export default function EditHackthonForm({ id, name, startDate, endDate, descrip
             rows={4}
           ></textarea>
         </div>
-{/* 
+
         <div className="mb-4">
-          <label htmlFor="imageUpload" className="block text-lg font-medium">Upload Image</label>
+          <label htmlFor="imageUpload" className="block text-lg font-medium">
+            Upload Image
+          </label>
           <input
             onChange={(e) => setFile(e.target.files[0])} // Store the new file
             type="file"
@@ -127,10 +147,12 @@ export default function EditHackthonForm({ id, name, startDate, endDate, descrip
             className="mt-1 block w-1/2 p-2 border border-gray-300 rounded-lg"
             accept="image/*"
           />
-        </div> */}
+        </div>
 
         <div className="mb-4">
-          <label htmlFor="level" className="block text-lg font-medium">Level</label>
+          <label htmlFor="level" className="block text-lg font-medium">
+            Level
+          </label>
           <select
             onChange={(e) => setNewLevel(e.target.value)}
             value={newLevel}

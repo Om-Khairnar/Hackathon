@@ -1,29 +1,48 @@
 'use client';
 import React, { useState, useEffect } from 'react';
-import EditHackthonForm from "@/components/EditHackthonForm"; // Import the form component
+import EditHackthonForm from "@/components/EditHackthonForm"; 
 
-export default function EditHackthon({ params }) {
-  const [challengeData, setChallengeData] = useState(null);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState(null);
-  const { id } = params; // Get the challenge ID from the params
+interface ChallengeData {
+  _id: string;
+  name: string;
+  startDate: string;
+  endDate: string;
+  description: string;
+  upload: string; 
+  level?: string; 
+}
 
-  // Fetch the challenge data when the component mounts
+interface EditHackthonProps {
+  params: {
+    id: string; 
+  };
+}
+
+export default function EditHackthon({ params }: EditHackthonProps) {
+  const [challengeData, setChallengeData] = useState<ChallengeData | null>(null);
+  const [loading, setLoading] = useState<boolean>(true);
+  const [error, setError] = useState<string | null>(null); 
+  const { id } = params; 
+
   useEffect(() => {
-    if (!id) return; // Wait until ID is available
+    if (!id) return; 
 
     const fetchChallengeData = async () => {
       try {
-        const response = await fetch(`/api/topics/${id}`); // Replace with your actual API path
+        const response = await fetch(`/api/topics/${id}`); 
         if (!response.ok) {
           throw new Error('Failed to fetch challenge data');
         }
         const data = await response.json();
-        setChallengeData(data.challenge); // Set the challenge data
-        setLoading(false);
-      } catch (error) {
-        console.error('Error fetching challenge data:', error);
-        setError(error.message);
+        setChallengeData(data.challenge); 
+      } catch (err) {
+        console.error('Error fetching challenge data:', err);
+        if (err instanceof Error) {
+          setError(err.message);
+        } else {
+          setError('An unknown error occurred');
+        }
+      } finally {
         setLoading(false);
       }
     };
@@ -31,28 +50,25 @@ export default function EditHackthon({ params }) {
     fetchChallengeData();
   }, [id]);
 
-  // If loading, show a loading message
   if (loading) {
     return <div>Loading...</div>;
   }
 
-  // If there's an error, show an error message
   if (error) {
     return <div>Error: {error}</div>;
   }
 
-  // If challenge data is fetched, render the form component with the data
   return (
     <div>
       <h1 className="text-2xl font-bold mb-4">Edit Challenge</h1>
       {challengeData && (
         <EditHackthonForm
-          id={challengeData._id} // Pass the ID to the form
+          id={challengeData._id} 
           name={challengeData.name}
           startDate={challengeData.startDate}
           endDate={challengeData.endDate}
           description={challengeData.description}
-          upload={challengeData.upload} // Cloudinary image URL or string
+          upload={challengeData.upload} 
           level={challengeData.level}
         />
       )}

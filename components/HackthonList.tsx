@@ -18,7 +18,7 @@ interface Hackathon {
 export default function HackthonList() {
   const [hackathons, setHackathons] = useState<Hackathon[]>([]);
   const [loading, setLoading] = useState<boolean>(true);
-  const [error, setError] = useState<string>("");
+  const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
     const fetchHackathons = async () => {
@@ -28,7 +28,12 @@ export default function HackthonList() {
         const data = await response.json();
         setHackathons(data.topics);
       } catch (err) {
-        setError(err.message);
+        console.error("Error fetching hackathons:", err);
+        if (err instanceof Error) {
+          setError(err.message); // Access the message property safely
+        } else {
+          setError("An unknown error occurred");
+        }
       } finally {
         setLoading(false);
       }
@@ -72,17 +77,11 @@ export default function HackthonList() {
                 key={hackathon._id}
                 className="card w-1/5 bg-white shadow-lg rounded-lg overflow-hidden"
               >
-                {/* <img
-                  src={hackathon.upload}
-                  alt={hackathon.name}
-                  className="w-full h-48 object-cover"
-                  loading="lazy"
-                />{" "} */}
                 <Image
                   src={hackathon.upload}
                   alt={hackathon.name}
-                  width={400} 
-                  height={200} 
+                  width={400}
+                  height={200}
                   className="w-full h-48 object-cover"
                   loading="lazy"
                 />
