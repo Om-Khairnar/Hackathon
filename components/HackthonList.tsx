@@ -53,55 +53,57 @@ export default function HackthonList() {
   if (error) return <p>Error: {error}</p>;
 
   return (
-    <div>
-      <div className="bg-dark-blue pt-24 pb-20">
-        <h2 className="text-2xl font-semibold text-white text-center pb-10">
-          Explore Challenges
-        </h2>
-        <div className="flex justify-center items-center space-x-2 p-4">
-          <div className="relative w-full max-w-lg">
-            <input
-              type="text"
-              placeholder="Search"
-              className="w-full h-12 p-2 pl-10 border border-zinc-300 rounded-lg focus:outline-none focus:ring focus:ring-primary"
-            />
-            <span className="absolute left-3 top-2 text-zinc-500">
-              <Search width={30} height={30} />
-            </span>
-          </div>
+    <div className="bg-dark-blue pt-24 pb-20 px-4">
+      <h2 className="text-2xl font-semibold text-white text-center pb-10">
+        Explore Challenges
+      </h2>
+      <div className="flex justify-center items-center space-x-2 p-4">
+        <div className="relative w-full max-w-lg">
+          <input
+            type="text"
+            placeholder="Search"
+            className="w-full h-12 p-2 pl-10 border border-zinc-300 rounded-lg focus:outline-none focus:ring focus:ring-primary"
+          />
+          <span className="absolute left-3 top-2 text-zinc-500">
+            <Search width={30} height={30} />
+          </span>
         </div>
-        <div className="bg-custom-blue">
-          <div className="flex justify-between items-center p-4 space-x-4">
-            {hackathons.map((hackathon) => (
-              <div
-                key={hackathon._id}
-                className="card w-1/5 bg-white shadow-lg rounded-lg overflow-hidden"
-              >
-                <Image
-                  src={hackathon.upload}
-                  alt={hackathon.name}
-                  width={400}
-                  height={200}
-                  className="w-full h-48 object-cover"
-                  loading="lazy"
-                />
-                <div className="p-4">
-                  <h2>{hackathon.name}</h2>
-                  <h3>{hackathon.description}</h3>
-                  <h4>
-                    {new Date(hackathon.startDate).toLocaleDateString()}
-                  </h4>{" "}
-                  <h4>{new Date(hackathon.endDate).toLocaleDateString()}</h4>{" "}
-                </div>
-                <div className="flex gap-2">
-                  <Remove id={hackathon._id} onDelete={handleDelete} />
-                  <Link href={`/editHackthon/${hackathon._id}`}>
-                    <HiPencilAlt size={24} />
-                  </Link>
-                </div>
+      </div>
+
+      {/* Hackathon Cards Section */}
+      <div className="bg-custom-blue">
+        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 p-4">
+          {hackathons.map((hackathon) => (
+            <div
+              key={hackathon._id}
+              className="card bg-white shadow-lg rounded-lg overflow-hidden"
+            >
+              <Image
+                src={hackathon.upload}
+                alt={hackathon.name}
+                width={400}
+                height={200}
+                className="w-full h-48 object-cover"
+                loading="lazy"
+              />
+              <div className="p-4">
+                <h2 className="text-lg font-semibold">{hackathon.name}</h2>
+                <p className="text-gray-500">{hackathon.description}</p>
+                <p className="text-sm text-gray-400">
+                  Start: {new Date(hackathon.startDate).toLocaleDateString()}
+                </p>
+                <p className="text-sm text-gray-400">
+                  End: {new Date(hackathon.endDate).toLocaleDateString()}
+                </p>
               </div>
-            ))}
-          </div>
+              <div className="flex gap-2 p-4">
+                <Remove id={hackathon._id} onDelete={handleDelete} />
+                <Link href={`/editHackthon/${hackathon._id}`}>
+                  <HiPencilAlt size={24} className="text-blue-500" />
+                </Link>
+              </div>
+            </div>
+          ))}
         </div>
       </div>
     </div>
